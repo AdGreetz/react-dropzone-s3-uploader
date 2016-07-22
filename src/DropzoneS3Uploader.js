@@ -48,7 +48,7 @@ export default class DropzoneS3Uploader extends React.Component {
     this.setState({error: err})
   }
 
-  onFinish = (info) => {
+  onFinish = (signingState, info) => {
     const finFn = this.props.onFinish
     if (finFn) finFn(info)
     this.setState({filename: info.filename, error: null, progress: null})
