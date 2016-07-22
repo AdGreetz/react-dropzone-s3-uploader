@@ -35,6 +35,7 @@ export default class DropzoneS3Uploader extends React.Component {
     onError: PropTypes.func,
     onProgress: PropTypes.func,
     onFinish: PropTypes.func,
+    onDrop: PropTypes.func,
   }
 
   onProgress = (progress, status, file) => {
@@ -60,6 +61,9 @@ export default class DropzoneS3Uploader extends React.Component {
   }
 
   handleDrop = files => {
+    const dropFn = this.props.onDrop
+    if (dropFn) dropFn(files)
+
     let error = null
     const size = files[0].size
     const max_file_size = this.props.max_file_size || this.props.maxFileSize
@@ -136,13 +140,13 @@ export default class DropzoneS3Uploader extends React.Component {
         contents = (<img src={file_url} style={image_style} />)
       }
       else {
-        contents = (<div><span className="glyphicon glyphicon-file" style={{fontSize: '50px'}} />{filename}</div>)
+        contents = (<div><span className="glyphicon glyphicon-play" style={{fontSize: '50px'}} />{filename}</div>)
       }
     }
 
     return (
       <Dropzone onDrop={this.handleDrop} {...dropzone_props} >
-        {contents}
+        {!progress ? contents : null}
         {progress ? (<ProgressBar now={progress} label="%(percent)s%" srOnly />) : null}
         {error ? (<small>{error}</small>) : null}
       </Dropzone>
