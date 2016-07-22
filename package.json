@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.6.1",
-    "react-s3-uploader": "^1.2.1",
+    "react-s3-uploader": "git+ssh://git@github.com:AdGreetz/react-s3-uploader.git",
     "react-dropzone": "^3.2.2"
   },
   "peerDependencies": {
