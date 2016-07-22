@@ -14,6 +14,7 @@ export default class DropzoneS3Uploader extends React.Component {
     signingUrl: PropTypes.string,
     signing_url_query_params: PropTypes.object,
     signingUrlQueryParams: PropTypes.object,
+    bucket_id: PropTypes.string,
 
     children: PropTypes.element,
     headers: PropTypes.object,
@@ -36,10 +37,10 @@ export default class DropzoneS3Uploader extends React.Component {
     onFinish: PropTypes.func,
   }
 
-  onProgress = (progress) => {
+  onProgress = (progress, status, file) => {
     const progFn = this.props.onProgress
-    if (progFn) progFn(progress)
-    this.setState({progress})
+    if (progFn) progFn(progress, status, file)
+    this.setState({progress, status, filename: file.name})
   }
 
   onError = err => {
@@ -79,6 +80,7 @@ export default class DropzoneS3Uploader extends React.Component {
       signingUrl: this.props.signing_url || this.props.signingUrl || '/s3/sign',
       signingUrlQueryParams: this.props.signing_url_query_params || this.props.signingUrlQueryParams || {},
       onProgress: this.onProgress,
+      bucket_id: this.props.bucket_id,
       onFinishS3Put: this.onFinish,
       onError: this.onError,
       signingUrlHeaders: this.props.signingUrlHeaders,
@@ -93,7 +95,7 @@ export default class DropzoneS3Uploader extends React.Component {
     const state = this.state || {filename: this.props.filename}
     const {filename, progress, error} = state
     const s3_url = this.props.s3_url || this.props.s3Url
-    const file_url = filename ? `${s3_url}/${filename}` : null
+    const file_url = filename ? s3_url + this.props.bucket_id + '/' + filename : null;
 
     const dropzone_props = {
       style: this.props.style || {
