@@ -85,10 +85,11 @@ export default class DropzoneS3Uploader extends React.Component {
       signingUrlQueryParams: this.props.signing_url_query_params || this.props.signingUrlQueryParams || {},
       onProgress: this.onProgress,
       bucket_id: this.props.bucket_id,
+      onDrop: this.props.onDrop,
       onFinishS3Put: this.onFinish,
       onError: this.onError,
       signingUrlHeaders: this.props.signingUrlHeaders,
-      uploadRequestHeaders: this.props.headers || {'x-amz-acl': 'public-read'},
+      uploadRequestHeaders: this.props.headers,
       contentDisposition: 'auto',
       server: this.props.server || this.props.host || '',
     })
